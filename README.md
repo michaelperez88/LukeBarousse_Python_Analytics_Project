@@ -20,17 +20,39 @@ For my analysis into the Data Analyst jobs market, I harnessed the power of seve
     - Pandas Library
     - Matplotlib Library
     - Seaborn Library
-- Jupyter Notebooks: tool used to write Python scripts
-- Visual Studio Code: IDE used to store project and execute Python code
+- Jupyter Notebooks: tool used to execute Python scripts
+- Visual Studio Code: IDE used to store project and write Python code
 
+# Import Libraries and Load Data Source
+
+```python
+# import libraries
+
+import ast
+import pandas as pd
+import seaborn as sns
+from datasets import load_dataset
+import matplotlib.pyplot as plt
+
+# loading data
+
+dataset = load_dataset('lukebarousse/data_jobs')
+df = dataset['train'].to_pandas()
+
+# data cleanup
+
+df['job_posted_date'] = pd.to_datetime(df['job_posted_date'])
+
+# use apply() to clean 'job_skills' >> makes the column a list datatype instead of string
+
+df['job_skills'] = df['job_skills'].apply(lambda x: ast.literal_eval(x) if pd.notna(x) else(x))
+```
 
 # The Analysis
 
 ## 1. What are the most demanded skills for the top 3 most popular data roles?
 
 To find the most demanded skills for the top 3 most popular data roles, I filtered out those positions by which ones were the most popular, and acquired the top 5 skills for these top 3 roles. This script highlights the most popular job titles and their top skills, showing which skills I should pay attention to depending on my taget role.
-
-View my notbook with detailed steps here: [2_Skill_Demand.ipynb](3_Project/2_Skill_Demand.ipynb)
 
 ### Visualize Data
 
@@ -230,7 +252,11 @@ plt.show()
 
 #### Insights:
 - The scatter plot reveals that most `programming` skills (colored blue) tend to cluster at higher salary levels compared to other categories, suggesting that programming expertise may offer greater salary benefits within the data analytics field.
-- Analyst tools (colored green), including Tableau and Power BI, are prevelant in job postings and offer competitive salaries, illustrating that visualization and data analysis are crucial for current data analyst roles.
+- Analyst tools (colored green), including Tableau and Power BI, are prevelant in job postings and offer competitive salaries, illustrating that visualization is crucial for current data analyst roles.
+
+# Conclusion
+
+After this introductory exploration into the data science job market, I've learned what skills and trends are shaping this evolving field.  The insights gained by analyzing the data and creating visualizations offer actionable insights for those seeking to break into the data science ecosystem, as well as existing data analysts who want to improve their skills.  It is well known that Excel and SQL are the fundamental attributes for any data analyst.  Based off the insights in this project, I would recommend learning Python and a BI tool such as Tableau to those who want to take their skills (and salary) to the next level. 
 
 
 
